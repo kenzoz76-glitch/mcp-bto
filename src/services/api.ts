@@ -1,5 +1,23 @@
-import { ApiHealthStatus, FilterState, HDBRecord } from '../types/hdb';
+import { ApiHealthStatus, FilterState, HDBRecord, UraTokenResponse } from '../types/hdb';
 import { RESOURCE_ID } from '../constants/hdb';
+
+export async function fetchUraDailyToken(forceRefresh: boolean = false): Promise<UraTokenResponse> {
+  try {
+    const url = `/api/ura-token${forceRefresh ? '?refresh=true' : ''}`;
+    const res = await fetch(url);
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('Backend /api/ura-token failed', err);
+  }
+
+  return {
+    success: false,
+    accessKeyConfigured: false,
+    message: 'Could not contact /api/ura-token endpoint',
+  };
+}
 
 export async function fetchApiHealth(): Promise<ApiHealthStatus> {
   try {

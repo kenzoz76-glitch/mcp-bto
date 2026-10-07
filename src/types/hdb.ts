@@ -31,10 +31,31 @@ export interface ApiHealthStatus {
   totalRecordsAvailable?: number;
   sampleRecordsCount?: number;
   sampleRecords?: any[];
+  uraTokenService?: {
+    endpoint: string;
+    header: string;
+    btoAccountKeyConfigured: boolean;
+    tokenExchangeRoute: string;
+    status: string;
+  };
   timestamp: string;
   error?: string;
   version?: string;
 }
+
+export interface UraTokenResponse {
+  success: boolean;
+  cached?: boolean;
+  token?: string | null;
+  date?: string;
+  latencyMs?: number;
+  accessKeyConfigured: boolean;
+  message: string;
+  endpoint?: string;
+  header?: string;
+  raw?: any;
+}
+
 
 export interface FilterState {
   town: string;

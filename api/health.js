@@ -63,6 +63,9 @@ export default async function handler(req, res) {
     const records = data?.result?.records || [];
     const total = data?.result?.total || 0;
 
+    // URA Data Service daily token info
+    const uraEndpoint = 'https://eservice.ura.gov.sg/uraDataService/insertNewToken/v1';
+
     return res.status(200).json({
       status: 'healthy',
       healthy: true,
@@ -74,8 +77,15 @@ export default async function handler(req, res) {
       totalRecordsAvailable: total,
       sampleRecordsCount: records.length,
       sampleRecords: records,
+      uraTokenService: {
+        endpoint: uraEndpoint,
+        header: 'AccessKey',
+        btoAccountKeyConfigured: Boolean(btoAccountKey),
+        tokenExchangeRoute: '/api/ura-token',
+        status: btoAccountKey ? 'ready' : 'awaiting_key_in_vercel',
+      },
       timestamp: new Date().toISOString(),
-      version: '1.0.0',
+      version: '1.1.0',
     });
   } catch (err) {
     const latencyMs = Date.now() - startTime;

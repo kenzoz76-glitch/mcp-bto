@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 import healthHandler from './api/health.js';
 // @ts-ignore
 import resaleHandler from './api/resale.js';
+// @ts-ignore
+import uraTokenHandler from './api/ura-token.js';
 
 dotenv.config();
 
@@ -25,6 +27,10 @@ async function startServer() {
 
   app.all('/api/resale', (req, res) => {
     return resaleHandler(req, res);
+  });
+
+  app.all('/api/ura-token', (req, res) => {
+    return uraTokenHandler(req, res);
   });
 
   if (!isProd) {
